@@ -47,7 +47,7 @@ renderer.shadowMap.enabled = true
 /**
  * fog
  */
-scene.fog = new THREE.Fog(0x040404, 10, 20)
+scene.fog = new THREE.Fog(0x040404, 15, 20)
 
 /**
  * particles
@@ -110,11 +110,11 @@ console.log(plane.receiveShadow)
 
 
 
-//gsap
+gsap
 
     gsap.registerPlugin(ScrollTrigger);
 
-// Create a ScrollTrigger for the first scroll section
+// // Create a ScrollTrigger for the first scroll section
 ScrollTrigger.create({
     trigger: "#spacer1",
     endTrigger: "#spacer2",
@@ -124,10 +124,10 @@ ScrollTrigger.create({
         const angle = (self.progress)* Math.PI * 2.5;
 
         // Calculate the new camera position
-        const radius = 10; 
+        const radius = 12; 
         const x = Math.cos(angle) * radius ;
         const z = Math.sin(angle) * radius ;
-        const y = 7;
+        const y = Math.sin((self.progress * Math.PI) * 2.7) * 2.5 + 7;
 
         if (screen !== null ) {
             screen.rotation.x = Math.PI * 2.15 - (self.progress * Math.PI * 0.8);
@@ -151,7 +151,6 @@ ScrollTrigger.create({
 
 
 
-
 scene.add(ordi);
 });       
 
@@ -159,25 +158,23 @@ scene.add(ordi);
  * ligths
  */
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.25)
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.08)
 scene.add(ambientLight)
-ambientLight.castShadow = true
+
 
 const pointLight = new THREE.PointLight(0x41ff31, 0.25)
 pointLight.position.set(-3.05, 0.15, 0.25)
 scene.add(pointLight)
 
 const dirLight = new THREE.DirectionalLight(0xffffff, 1.5)
-dirLight.castShadow = true
 dirLight.position.set(1.45, 0.7, -1.5)
 
 const pointLight2 = new THREE.PointLight(0x89CFEF, 3)
-pointLight2.castShadow = true
+
 pointLight2.position.set(2, 2, 2)
 scene.add(pointLight2)
 
 const pointLight3 = new THREE.PointLight(0x800080, 2.5)
-pointLight3.castShadow = true
 pointLight3.position.set(-2, 2, 2)
 scene.add(pointLight3)
 
