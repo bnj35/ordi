@@ -7,7 +7,6 @@
 html,
 body
 {
-    /* overflow: hidden; */
     color: whitesmoke;
     font-family: 'Roboto', sans-serif;
     scroll-behavior: smooth;
@@ -55,8 +54,7 @@ a{
     text-decoration: none;
 }
 
-#spacer1,#spacer2,#spacer3,#spacer4,#spacer5{
+#spacer1,#spacer2,#spacer3,#spacer4,#spacer5,#spacer6{
     height: 100vh;
     border-bottom: 1px solid red;
 }
-

@@ -110,34 +110,53 @@ plane.receiveShadow = true;
 
 
 // gsap
+let isOpen = false
+
+let curve1 = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-5, 10, 10),
+    new THREE.Vector3(0, 7.5, 11),
+
+]);
+let curve2 = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0, 7.5, 11),
+    new THREE.Vector3(5, 5, 12),
+    new THREE.Vector3(5, 2, -7),
+    
+]);
+let curve3 = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(5, 2, -7),
+    new THREE.Vector3(-7, 5, -6),
+    new THREE.Vector3(-3, 2, 2),
+    new THREE.Vector3(5, 2, 5),
 
 
-let curve1 = [0, 2, 10, 2, 5, -8, 0, 3, 6];
-let curve2 = [2,7,10,0,5,-7,-4,10,10];
-let curve3 = [0,2,7,2,5,-8,0,3,6];
-let curve4 = [2,7,10,0,5,-7,-4,10,10];
-let curve5 = [0, 2, 10, 2, 5, -8, 0, 3, 6];
+]);
 
+//a travailler
+let curve4 = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(5, 2, 5),
+    new THREE.Vector3(0, 3, 10),
+]);
+let curve5 = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0, 3, 10),
+    new THREE.Vector3(0, 3, 7),
+    new THREE.Vector3(0, 2.5, -1),
+]);
 
-
-let rotate1 = [1,3,4,2,5,2,3,4,5]
-let rotate2 = [5,4,3,2,1,2,3,4,5]
-let rotate3 = [0,1,2,3,4,5,6,7,8]
-let rotate4 = [1,3,4,2,5,2,3,4,5]
-let rotate5 = [5,4,3,2,1,2,3,4,5]
 
         
     gsap.registerPlugin(ScrollTrigger);
 
+    //add rotate
     const triggers = [
-        { trigger: "#spacer1", duration: 5, curve: curve1, rotate: rotate1 },
-        { trigger: "#spacer2", duration: 3, curve: curve2, rotate: rotate2 },
-        { trigger: "#spacer3", duration: 3, curve: curve3, rotate: rotate3 },
-        { trigger: "#spacer4", duration: 3, curve: curve4, rotate: rotate4 },
-        { trigger: "#spacer5", duration: 3, curve: curve5, rotate: rotate5 },
+        { trigger: "#spacer1", duration: 5, curve: curve1 },
+        { trigger: "#spacer2", duration: 3, curve: curve2 },
+        { trigger: "#spacer3", duration: 3, curve: curve3 },
+        { trigger: "#spacer4", duration: 3, curve: curve4 },
+        { trigger: "#spacer5", duration: 3, curve: curve5 },
     ];
-
-    triggers.forEach(({ trigger, duration, curve, rotate }) => {
+ //add rotate
+    triggers.forEach(({ trigger, duration, curve }) => {
         ScrollTrigger.create({
             trigger,
             start: "top top",
@@ -145,50 +164,31 @@ let rotate5 = [5,4,3,2,1,2,3,4,5]
             scrub: 5,
             duration,
             onUpdate: self => {
-                const position = new THREE.Vector3().fromArray(curve).lerpVectors(new THREE.Vector3().fromArray(curve), new THREE.Vector3().fromArray(curve), self.progress);
-                // const rotation = new THREE.Euler().fromArray(rotate).lerpVectors(new THREE.Euler().fromArray(rotate), new THREE.Euler().fromArray(rotate), self.progress);
-                camera.position.copy(position);
-                camera.lookAt(new THREE.Vector3(0, 3, 0));
-                // camera.rotation.copy(rotation);
+                if (trigger === "#spacer1" ) {
+                    isOpen = false;
+                }
+                else{
+                    isOpen = true;
+                }
+                camera.position.copy(curve.getPoint(self.progress));
+                // camera.rotation.copy(new THREE.Euler().setFromVector3(rotate.getPoint(self.progress)));
+                
+                camera.lookAt(new THREE.Vector3(-0.05, 2.5, -2));
+
+                if (!isOpen && screen !== null) {
+                                screen.rotation.x = Math.PI * 2.15 - (self.progress * Math.PI * 0.8) - 0.2;
+                                            screen.position.y = (3 - (self.progress*1))**2;
+                                            screen.position.z = 6 - (self.progress * 7.35);
+                            }
+                            else {}
+                if (!isOpen  && keyboard !== null) {
+                                            keyboard.position.y = (3.215 - (self.progress * 2.57))**2;
+                                            pointLight.position.y =(4.25 - (self.progress * 4.3));
+                                        }
+                                        else{}
             },
         });
     });
-
-// // Create a ScrollTrigger for the first scroll section
-// ScrollTrigger.create({
-//     trigger: "#spacer1",
-//     endTrigger: "#spacer2",
-//     scrub: 5,
-//     onUpdate: (self) => {
-//         // Calculate the angle based on the scroll progress
-//         const angle = (self.progress)* Math.PI * 2.5;
-
-//         // Calculate the new camera position
-//         const radius = 12; 
-//         const x = Math.cos(angle) * radius ;
-//         const z = Math.sin(angle) * radius ;
-//         const y = Math.sin((self.progress * Math.PI) * 2.7) * 2.5 + 7;
-
-//         if (screen !== null ) {
-//             screen.rotation.x = Math.PI * 2.15 - (self.progress * Math.PI * 0.8);
-//                         screen.position.y = (3 - (self.progress*1))**2;
-//                         screen.position.z = 6 - (self.progress * 7.35);
-//         }
-//         if (keyboard !== null) {
-//                         keyboard.position.y = (3.215 - (self.progress * 2.57))**2;
-//                         pointLight.position.y =(4.25 - (self.progress * 4.3));
-//                     }
-//         // Update the camera position
-//         camera.position.y = y ;
-//         camera.position.x = x ;
-//         camera.position.z = z ;
-//         // camera.position.set(x, camera.position.y, z);
-
-//         // Make the camera look at the ordi
-//         camera.lookAt(new THREE.Vector3(0, 0, 0));
-//     }
-// });
-
 
 
 scene.add(ordi);
@@ -249,16 +249,17 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(50, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = -5
-camera.position.y = 10
-camera.position.z = 10
-camera.lookAt(new THREE.Vector3(0, 0, 0))
+// camera.position.x = -5
+// camera.position.y = 10
+// camera.position.z = 10
+camera.position.set(-5, 10, 10)
+// camera.lookAt(new THREE.Vector3(0, 0, 0))
 scene.add(camera)
 
 // //test if camera is in the right position
-// if (camera.position.y >= 1.9 && camera.position.y <= 3.1 && 
-//     camera.position.z >= -2 && camera.position.z <= 1 && 
-//     camera.position.x >= -0.1 && camera.position.x <= 0.1) {
+// if (camera.position.y >= -4 && camera.position.y <= 4 && 
+//     camera.position.z >= -4 && camera.position.z <= 4 && 
+//     camera.position.x >= -4 && camera.position.x <= 4) {
 //         console.log("ok");
 
 //     window.location.href = "graphiste.html";
