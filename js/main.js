@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import GUI from 'lil-gui';
 import Stats from "three/addons/libs/stats.module.js";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -39,6 +38,8 @@ renderer.setClearColor(0x040404)
 
 //shadows
 renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.PCFSoftShadowMap
+
 
 
 
@@ -75,7 +76,7 @@ particlesGeometry.setAttribute(
 const particlesMaterial = new THREE.PointsMaterial()
 particlesMaterial.size= 0.02
 particlesMaterial.sizeAttenuation= true
-particlesMaterial.color = new THREE.Color('#9ffa')
+particlesMaterial.color = new THREE.Color('#9ffaff')
 particlesMaterial.transparent = true
 particlesMaterial.alphaMap = particleTexture
 particlesMaterial.depthWrite = false
@@ -96,7 +97,6 @@ loader.load( './ordi4.glb', function ( gltf )
     ordi.scale.set(0.5, 0.5, 0.5);
     ordi.position.y = 0.01;
     ordi.position.z = -0.1
-    console.log(ordi);
 const plane = ordi.children[2];
 const screen = ordi.children[1];
 const keyboard = ordi.children[0];
@@ -106,48 +106,88 @@ keyboard.castShadow = true;
 keyboard.receiveShadow = true;
 plane.receiveShadow = true;
 
-console.log(plane.receiveShadow)
 
 
 
-gsap
+// gsap
 
+
+let curve1 = [0, 2, 10, 2, 5, -8, 0, 3, 6];
+let curve2 = [2,7,10,0,5,-7,-4,10,10];
+let curve3 = [0,2,7,2,5,-8,0,3,6];
+let curve4 = [2,7,10,0,5,-7,-4,10,10];
+let curve5 = [0, 2, 10, 2, 5, -8, 0, 3, 6];
+
+
+
+let rotate1 = [1,3,4,2,5,2,3,4,5]
+let rotate2 = [5,4,3,2,1,2,3,4,5]
+let rotate3 = [0,1,2,3,4,5,6,7,8]
+let rotate4 = [1,3,4,2,5,2,3,4,5]
+let rotate5 = [5,4,3,2,1,2,3,4,5]
+
+        
     gsap.registerPlugin(ScrollTrigger);
 
+    const triggers = [
+        { trigger: "#spacer1", duration: 5, curve: curve1, rotate: rotate1 },
+        { trigger: "#spacer2", duration: 3, curve: curve2, rotate: rotate2 },
+        { trigger: "#spacer3", duration: 3, curve: curve3, rotate: rotate3 },
+        { trigger: "#spacer4", duration: 3, curve: curve4, rotate: rotate4 },
+        { trigger: "#spacer5", duration: 3, curve: curve5, rotate: rotate5 },
+    ];
+
+    triggers.forEach(({ trigger, duration, curve, rotate }) => {
+        ScrollTrigger.create({
+            trigger,
+            start: "top top",
+            end: "bottom top",
+            scrub: 5,
+            duration,
+            onUpdate: self => {
+                const position = new THREE.Vector3().fromArray(curve).lerpVectors(new THREE.Vector3().fromArray(curve), new THREE.Vector3().fromArray(curve), self.progress);
+                // const rotation = new THREE.Euler().fromArray(rotate).lerpVectors(new THREE.Euler().fromArray(rotate), new THREE.Euler().fromArray(rotate), self.progress);
+                camera.position.copy(position);
+                camera.lookAt(new THREE.Vector3(0, 3, 0));
+                // camera.rotation.copy(rotation);
+            },
+        });
+    });
+
 // // Create a ScrollTrigger for the first scroll section
-ScrollTrigger.create({
-    trigger: "#spacer1",
-    endTrigger: "#spacer2",
-    scrub: 5,
-    onUpdate: (self) => {
-        // Calculate the angle based on the scroll progress
-        const angle = (self.progress)* Math.PI * 2.5;
+// ScrollTrigger.create({
+//     trigger: "#spacer1",
+//     endTrigger: "#spacer2",
+//     scrub: 5,
+//     onUpdate: (self) => {
+//         // Calculate the angle based on the scroll progress
+//         const angle = (self.progress)* Math.PI * 2.5;
 
-        // Calculate the new camera position
-        const radius = 12; 
-        const x = Math.cos(angle) * radius ;
-        const z = Math.sin(angle) * radius ;
-        const y = Math.sin((self.progress * Math.PI) * 2.7) * 2.5 + 7;
+//         // Calculate the new camera position
+//         const radius = 12; 
+//         const x = Math.cos(angle) * radius ;
+//         const z = Math.sin(angle) * radius ;
+//         const y = Math.sin((self.progress * Math.PI) * 2.7) * 2.5 + 7;
 
-        if (screen !== null ) {
-            screen.rotation.x = Math.PI * 2.15 - (self.progress * Math.PI * 0.8);
-                        screen.position.y = (3 - (self.progress*1))**2;
-                        screen.position.z = 6 - (self.progress * 7.35);
-        }
-        if (keyboard !== null) {
-                        keyboard.position.y = (3.215 - (self.progress * 2.57))**2;
-                        pointLight.position.y =(4.25 - (self.progress * 4.3));
-                    }
-        // Update the camera position
-        camera.position.y = y ;
-        camera.position.x = x ;
-        camera.position.z = z ;
-        // camera.position.set(x, camera.position.y, z);
+//         if (screen !== null ) {
+//             screen.rotation.x = Math.PI * 2.15 - (self.progress * Math.PI * 0.8);
+//                         screen.position.y = (3 - (self.progress*1))**2;
+//                         screen.position.z = 6 - (self.progress * 7.35);
+//         }
+//         if (keyboard !== null) {
+//                         keyboard.position.y = (3.215 - (self.progress * 2.57))**2;
+//                         pointLight.position.y =(4.25 - (self.progress * 4.3));
+//                     }
+//         // Update the camera position
+//         camera.position.y = y ;
+//         camera.position.x = x ;
+//         camera.position.z = z ;
+//         // camera.position.set(x, camera.position.y, z);
 
-        // Make the camera look at the ordi
-        camera.lookAt(new THREE.Vector3(0, 0, 0));
-    }
-});
+//         // Make the camera look at the ordi
+//         camera.lookAt(new THREE.Vector3(0, 0, 0));
+//     }
+// });
 
 
 

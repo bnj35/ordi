@@ -2,7 +2,6 @@ var row = document.querySelectorAll('row');
 var image = document.querySelectorAll('img');
 let x = 0;
 let y = 0;
-let isInside = false;
 var offX = 15;          // X offset from mouse position
 var offY = -80;          // Y offset from mouse position
 
