@@ -169,9 +169,9 @@ let rotate2 = new THREE.CatmullRomCurve3([
     new THREE.Vector3(0, 0, 0), 
 ]);
 let rotate3 = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(0, 0, 0), 
+    new THREE.Vector3(0, -3, 0),
+    new THREE.Vector3(0, -5, 0),
+    new THREE.Vector3(0, -2, 0), 
 ]);
 let rotate4 = new THREE.CatmullRomCurve3([
     new THREE.Vector3(0, 0, 0),
@@ -194,7 +194,7 @@ let rotate5 = new THREE.CatmullRomCurve3([
         { trigger: "#spacer5", duration: 3, curve: curve5 ,rotate: rotate5},
     ];
 
-    
+
     triggers.forEach(({ trigger, duration, curve ,curveScreen, rotateScreen,rotate}) => {
         ScrollTrigger.create({
             trigger,
