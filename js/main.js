@@ -145,8 +145,8 @@ let curveScreen = new THREE.CatmullRomCurve3([
     new THREE.Vector3(0, 3, 1),
     new THREE.Vector3(0, 3.5, 0.5),
     new THREE.Vector3(0, 3.8, 0),
-    new THREE.Vector3(0, 4.5, 0.5),
-    new THREE.Vector3(0, 4.8, 0),
+    new THREE.Vector3(0, 4.4, -0.2),
+    new THREE.Vector3(0, 4.6, -0.8),
     new THREE.Vector3(0, 4, -2),
 ]);
 
