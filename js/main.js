@@ -4,6 +4,7 @@ import Stats from "three/addons/libs/stats.module.js";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { rotate } from 'three/examples/jsm/nodes/Nodes.js';
 
 
 
@@ -113,7 +114,7 @@ plane.receiveShadow = true;
 let isOpen = false
 
 let curve1 = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(-5, 10, 10),
+    new THREE.Vector3(-4, 4, 15),
     new THREE.Vector3(0, 7.5, 11),
 
 ]);
@@ -127,13 +128,10 @@ let curve3 = new THREE.CatmullRomCurve3([
     new THREE.Vector3(5, 2, -7),
     new THREE.Vector3(-7, 5, -6),
     new THREE.Vector3(-3, 2, 2),
-    new THREE.Vector3(5, 2, 5),
-
-
 ]);
 
-//a travailler
 let curve4 = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-3, 2, 2),
     new THREE.Vector3(5, 2, 5),
     new THREE.Vector3(0, 3, 10),
 ]);
@@ -143,20 +141,61 @@ let curve5 = new THREE.CatmullRomCurve3([
     new THREE.Vector3(0, 2.5, -1),
 ]);
 
+let curveScreen = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0, 3, 1),
+    new THREE.Vector3(0, 3.5, 0.5),
+    new THREE.Vector3(0, 3.8, 0),
+    new THREE.Vector3(0, 4.5, 0.5),
+    new THREE.Vector3(0, 4.8, 0),
+    new THREE.Vector3(0, 4, -2),
+]);
 
+let rotateScreen =   new THREE.CatmullRomCurve3([
+    new THREE.Vector3(5.5, 0, 0),
+    new THREE.Vector3(5, 0, 0),
+    new THREE.Vector3(4, 0, 0),
+]);
+
+//a travailler
+
+let rotate1 = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(9, 2, 3),
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, 0, 0), 
+]);
+let rotate2 = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, 0, 0), 
+]);
+let rotate3 = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, 0, 0), 
+]);
+let rotate4 = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, 0, 0), 
+]);
+let rotate5 = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, 0, 0), 
+]);
         
     gsap.registerPlugin(ScrollTrigger);
 
-    //add rotate
     const triggers = [
-        { trigger: "#spacer1", duration: 5, curve: curve1 },
-        { trigger: "#spacer2", duration: 3, curve: curve2 },
-        { trigger: "#spacer3", duration: 3, curve: curve3 },
-        { trigger: "#spacer4", duration: 3, curve: curve4 },
-        { trigger: "#spacer5", duration: 3, curve: curve5 },
+        { trigger: "#spacer1", duration: 5, curve: curve1 ,curveScreen: curveScreen, rotateScreen: rotateScreen, rotate: rotate1},
+        { trigger: "#spacer2", duration: 3, curve: curve2 ,rotate: rotate2},
+        { trigger: "#spacer3", duration: 3, curve: curve3 ,rotate: rotate3},
+        { trigger: "#spacer4", duration: 3, curve: curve4 ,rotate: rotate4},
+        { trigger: "#spacer5", duration: 3, curve: curve5 ,rotate: rotate5},
     ];
- //add rotate
-    triggers.forEach(({ trigger, duration, curve }) => {
+
+    
+    triggers.forEach(({ trigger, duration, curve ,curveScreen, rotateScreen,rotate}) => {
         ScrollTrigger.create({
             trigger,
             start: "top top",
@@ -171,25 +210,25 @@ let curve5 = new THREE.CatmullRomCurve3([
                     isOpen = true;
                 }
                 camera.position.copy(curve.getPoint(self.progress));
-                // camera.rotation.copy(new THREE.Euler().setFromVector3(rotate.getPoint(self.progress)));
+                screen.position.copy(curveScreen.getPoint(self.progress));
+                camera.rotation.copy(new THREE.Euler().setFromVector3(rotate.getPoint(self.progress)));
+                screen.rotation.copy(new THREE.Euler().setFromVector3(rotateScreen.getPoint(self.progress)));
                 
                 camera.lookAt(new THREE.Vector3(-0.05, 2.5, -2));
 
-                if (!isOpen && screen !== null) {
-                                screen.rotation.x = Math.PI * 2.15 - (self.progress * Math.PI * 0.8) - 0.2;
-                                            screen.position.y = (3 - (self.progress*1))**2;
-                                            screen.position.z = 6 - (self.progress * 7.35);
-                            }
-                            else {}
-                if (!isOpen  && keyboard !== null) {
-                                            keyboard.position.y = (3.215 - (self.progress * 2.57))**2;
-                                            pointLight.position.y =(4.25 - (self.progress * 4.3));
-                                        }
-                                        else{}
-            },
-        });
-    });
-
+            //     if (!isOpen && screen !== null) {
+            //                     screen.rotation.x = Math.PI * 2.15 - (self.progress * Math.PI * 0.8) - 0.2;
+            //                                 screen.position.y = (3 - (self.progress*1))**2;
+            //                                 screen.position.z = 6 - (self.progress * 7.35);
+            //                 }
+            //                 else {}
+            //     if (!isOpen  && keyboard !== null) {
+            //                                 keyboard.position.y = (3.215 - (self.progress * 2.57))**2;
+            //                                 pointLight.position.y =(4.25 - (self.progress * 4.3));
+            //                             }
+            //                             else{}
+            // },
+    }});});
 
 scene.add(ordi);
 });       
@@ -249,11 +288,10 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(50, sizes.width / sizes.height, 0.1, 100)
-// camera.position.x = -5
-// camera.position.y = 10
-// camera.position.z = 10
-camera.position.set(-5, 10, 10)
-// camera.lookAt(new THREE.Vector3(0, 0, 0))
+camera.position.x = -4
+camera.position.y = 4
+camera.position.z = 15
+camera.lookAt(new THREE.Vector3(-0.05, 2.5, -2));
 scene.add(camera)
 
 // //test if camera is in the right position
