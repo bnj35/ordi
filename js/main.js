@@ -4,13 +4,16 @@ import Stats from "three/addons/libs/stats.module.js";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { rotate } from 'three/examples/jsm/nodes/Nodes.js';
+import { EffectComposer } from 'three/examples/jsm/Addons.js';
+import { RenderPass } from 'three/examples/jsm/Addons.js';
+import { UnrealBloomPass } from 'three/examples/jsm/Addons.js';
 
 
 
 /**
  * Base
  */
+
 // Debug
 const gui = new GUI()
 let stats = Stats()
@@ -35,14 +38,11 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-renderer.setClearColor(0x040404)
+renderer.setClearColor(0x000000)
 
 //shadows
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
-
-
-
 
 
 // scene.add(plane)
@@ -138,16 +138,16 @@ let curve4 = new THREE.CatmullRomCurve3([
 let curve5 = new THREE.CatmullRomCurve3([
     new THREE.Vector3(0, 3, 10),
     new THREE.Vector3(0, 3, 7),
-    new THREE.Vector3(0, 2.5, -1),
+    new THREE.Vector3(0, 2.3, -2.3),
 ]);
 
 let curveScreen = new THREE.CatmullRomCurve3([
     new THREE.Vector3(0, 3, 1),
-    new THREE.Vector3(0, 3.5, 0.5),
-    new THREE.Vector3(0, 3.8, 0),
-    new THREE.Vector3(0, 4.4, -0.2),
-    new THREE.Vector3(0, 4.6, -0.8),
-    new THREE.Vector3(0, 4, -2),
+    new THREE.Vector3(0, 3.4, 0.5),
+    new THREE.Vector3(0, 3.7, 0),
+    new THREE.Vector3(0, 4.3, -0.3),
+    new THREE.Vector3(0, 4.4, -1),
+    new THREE.Vector3(0, 3.4, -2.8),
 ]);
 
 let rotateScreen =   new THREE.CatmullRomCurve3([
@@ -156,46 +156,20 @@ let rotateScreen =   new THREE.CatmullRomCurve3([
     new THREE.Vector3(4, 0, 0),
 ]);
 
-//a travailler
-
-let rotate1 = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(9, 2, 3),
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(0, 0, 0), 
-]);
-let rotate2 = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(0, 0, 0), 
-]);
-let rotate3 = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, -3, 0),
-    new THREE.Vector3(0, -5, 0),
-    new THREE.Vector3(0, -2, 0), 
-]);
-let rotate4 = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(0, 0, 0), 
-]);
-let rotate5 = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(0, 0, 0), 
-]);
         
     gsap.registerPlugin(ScrollTrigger);
 
     const triggers = [
-        { trigger: "#spacer1", duration: 5, curve: curve1 ,curveScreen: curveScreen, rotateScreen: rotateScreen, rotate: rotate1},
-        { trigger: "#spacer2", duration: 3, curve: curve2 ,rotate: rotate2},
-        { trigger: "#spacer3", duration: 3, curve: curve3 ,rotate: rotate3},
-        { trigger: "#spacer4", duration: 3, curve: curve4 ,rotate: rotate4},
-        { trigger: "#spacer5", duration: 3, curve: curve5 ,rotate: rotate5},
+        { trigger: "#spacer1", duration: 6, curve: curve1 ,curveScreen: curveScreen, rotateScreen: rotateScreen},
+        { trigger: "#spacer2", duration: 5, curve: curve2 },
+        { trigger: "#spacer3", duration: 5, curve: curve3 },
+        { trigger: "#spacer4", duration: 5, curve: curve4 },
+        { trigger: "#spacer5", duration: 3, curve: curve5},
+        { trigger: "#spacer6", duration: 2},
     ];
 
 
-    triggers.forEach(({ trigger, duration, curve ,curveScreen, rotateScreen,rotate}) => {
+    triggers.forEach(({ trigger, duration, curve ,curveScreen, rotateScreen}) => {
         ScrollTrigger.create({
             trigger,
             start: "top top",
@@ -209,13 +183,17 @@ let rotate5 = new THREE.CatmullRomCurve3([
                 else{
                     isOpen = true;
                 }
+                camera.lookAt(new THREE.Vector3(-0.05, 2.5, -2));
                 camera.position.copy(curve.getPoint(self.progress));
                 screen.position.copy(curveScreen.getPoint(self.progress));
-                camera.rotation.copy(new THREE.Euler().setFromVector3(rotate.getPoint(self.progress)));
+                // camera.rotation.copy(new THREE.Euler().setFromVector3(rotate.getPoint(self.progress)));
                 screen.rotation.copy(new THREE.Euler().setFromVector3(rotateScreen.getPoint(self.progress)));
-                
                 camera.lookAt(new THREE.Vector3(-0.05, 2.5, -2));
 
+                console.log(self.progress);
+                if(trigger === "#spacer6" && self.progress === 1){
+                    window.location.href = "graphiste.html";
+                }
             //     if (!isOpen && screen !== null) {
             //                     screen.rotation.x = Math.PI * 2.15 - (self.progress * Math.PI * 0.8) - 0.2;
             //                                 screen.position.y = (3 - (self.progress*1))**2;
@@ -236,10 +214,6 @@ scene.add(ordi);
 /**
  * ligths
  */
-
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.08)
-scene.add(ambientLight)
-
 
 const pointLight = new THREE.PointLight(0x41ff31, 0.25)
 pointLight.position.set(-3.05, 0.15, 0.25)
@@ -287,12 +261,21 @@ window.addEventListener('resize', () =>
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(50, sizes.width / sizes.height, 0.1, 100)
+const camera = new THREE.PerspectiveCamera(60, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = -4
 camera.position.y = 4
 camera.position.z = 15
 camera.lookAt(new THREE.Vector3(-0.05, 2.5, -2));
 scene.add(camera)
+
+//post processing
+const composer = new EffectComposer(renderer)
+const renderPass = new RenderPass(scene, camera)
+composer.addPass(renderPass)
+composer.addPass(new UnrealBloomPass(new THREE.Vector2(sizes.width, sizes.height), 0.5, 0.7, 0.7))
+
+
+
 
 // //test if camera is in the right position
 // if (camera.position.y >= -4 && camera.position.y <= 4 && 
@@ -314,7 +297,6 @@ scene.add(helpers)
 // helpers.add(axesHelper)
 
 gui.add(dirLight, 'intensity').min(0).max(10).step(0.001).name('directional light intensity')
-gui.add(ambientLight, 'intensity').min(0).max(10).step(0.001).name('ambient light intensity')
 
 
 /**
@@ -332,7 +314,7 @@ const tick = () =>
 
     // Render
     renderer.render(scene, camera)
-
+    composer.render()
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
 }
