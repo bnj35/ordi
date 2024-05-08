@@ -37,6 +37,10 @@ header p{
     font-size: 1.2rem;
 }
 
+.subtitle{
+    margin-top: 2vh
+}
+
 #bnj{
     margin-left:20vw
 }
@@ -125,6 +129,10 @@ a{
 .row:hover img{
     display: block;
     transition: ease-out 0.5s;
+}
+
+#last{
+    border-bottom: 1.5px solid black;
 }
 
 @media screen   and (max-width: 700px) {

@@ -65,7 +65,12 @@ a{
     text-decoration: none;
 }
 
-#spacer1,#spacer2,#spacer5,#spacer6{
+#spacer2,#spacer5{
+    height: 80vh;
+    /* border-bottom: 1px solid red; */
+}
+
+#spacer1,#spacer6{
     height: 100vh;
     /* border-bottom: 1px solid red; */
 }
@@ -160,4 +165,35 @@ a{
         -ms-transform: rotate(360deg);
         transform: rotate(360deg);
     }
+}
+
+@media screen and (max-width: 700px)
+{
+    header{
+        padding-bottom: 5vh;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+
+    header p{
+        font-size: 1rem;
+    }
+
+    .row p{
+        font-size: 1rem;
+    }
+
+    .left_head{
+        font-size: 0.7rem;
+    }
+    .left_head h2{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .right_head{
+        display: none;
+    }
+    
 }

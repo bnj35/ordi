@@ -6,6 +6,7 @@ import { EffectComposer } from 'three/examples/jsm/Addons.js';
 import { RenderPass } from 'three/examples/jsm/Addons.js';
 import { DotScreenPass } from 'three/examples/jsm/Addons.js';
 import { Raycaster } from 'three';
+import { Vector2 } from 'three';
 
 
 // Cursor
@@ -84,34 +85,6 @@ loader.load( './room.glb', function ( gltf )
     room.rotation.y = Math.PI * 1.01;
     room.position.z = -0.1;
 
-//     //raycast
-// const raycaster = new THREE.Raycaster();
-// const pointer = new THREE.Vector2();
-
-// function onPointerMove( event ) {
-
-// 	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-// 	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
-// }
-
-// function render() {
-//         // update the picking ray with the camera and pointer position
-//         raycaster.setFromCamera( pointer, camera );
-    
-//         // calculate objects intersecting the picking ray
-//         const intersects = raycaster.intersectObjects( room.children );
-    
-//         for ( let i = 0; i < intersects.length; i ++ ) {
-    
-//             console.log(intersects[ i ]);
-    
-//         }
-    
-//     }
-
-// window.addEventListener( 'pointermove', onPointerMove );
-// window.requestAnimationFrame(render);
 
     const directionalLight = new THREE.DirectionalLight(0xffffff, 7)
 directionalLight.position.set(camera.position.x, camera.position.y, camera.position.z)
@@ -119,6 +92,40 @@ directionalLight.target.position.set(room.position.x, room.position.y, room.posi
 scene.add(directionalLight)
 
 scene.add(room);
+
+
+    //raycast
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    
+    function onPointerMove( event ) {
+    
+        pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+        pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    
+    }
+    
+    function test() {
+        // console.log(scene.children[7])
+        // update the picking ray with the camera and pointer position
+        raycaster.setFromCamera( pointer, camera );
+    
+        // Vérifiez si scene.children[7] existe et est un objet
+        if (scene.children[7] && scene.children[7].isMesh) {
+            // calculate objects intersecting the picking ray
+            const intersects = raycaster.intersectObjects( [scene.children[7]] );
+    
+            for ( let i = 0; i < intersects.length; i++ ) {
+                console.log(intersects[ i ]);
+                cursor.style.cursor = 'pointer';
+            }
+        }
+    
+        window.requestAnimationFrame(test);
+    }
+    
+    window.addEventListener( 'pointermove', onPointerMove );
+    window.requestAnimationFrame(test);
 });       
 
 /**
@@ -182,6 +189,7 @@ composer.addPass(renderPass)
 composer.addPass(new DotScreenPass(new THREE.Vector2(2, 2), 0.5, 2))
 
 
+    
 /**
  * gui&helpers
  */
@@ -208,6 +216,8 @@ const tick = () =>
     // Render
     renderer.render(scene, camera)
     composer.render()
+
+    
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
 }
