@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.scrollingElement.scrollTo(0, 0);
 }
 );
+
+
 /**
  * Base
  */
@@ -87,8 +89,8 @@ const plane = ordi.children[2];
 const screen = ordi.children[1];
 const keyboard = ordi.children[0];
 screen.rotateX(6.2);
-screen.position.y = 2.8;
-screen.position.z = 2;
+screen.position.y = 3.2;
+screen.position.z = 2.6;
 screen.castShadow = true;
 screen.receiveShadow = true;
 keyboard.castShadow = true;
@@ -110,11 +112,11 @@ let curve1 = new THREE.CatmullRomCurve3([
 let curve2 = new THREE.CatmullRomCurve3([
     new THREE.Vector3(4, 1, 2),
     new THREE.Vector3(-1, 2, 2),
-    new THREE.Vector3(-5, 2, 2),
+    new THREE.Vector3(-7, 2, 2),
 ]);
 let curve3 = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(-5, 2, 2),
-    new THREE.Vector3(-4, 2, -5),
+    new THREE.Vector3(-7, 2, 2),
+    new THREE.Vector3(-5, 2, -5),
     new THREE.Vector3(0, 2, -10),
     new THREE.Vector3(6, 2, -5),
     new THREE.Vector3(7, 2, 4),
@@ -128,11 +130,11 @@ let curve4 = new THREE.CatmullRomCurve3([
 let curve5 = new THREE.CatmullRomCurve3([
     new THREE.Vector3(0, 3, 10),
     new THREE.Vector3(0, 3, 7),
-    new THREE.Vector3(0, 2.3, -2.3),
+    new THREE.Vector3(0, 2.3, -1.805),
 ]);
 
 let curveScreen = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, 3, 1),
+    new THREE.Vector3(0, 3.2, 2.5),
     new THREE.Vector3(0, 3.4, 0.5),
     new THREE.Vector3(0, 3.7, 0),
     new THREE.Vector3(0, 4.3, -0.3),
@@ -147,6 +149,7 @@ let rotateScreen =   new THREE.CatmullRomCurve3([
 ]);
 
 
+
         
     gsap.registerPlugin(ScrollTrigger);
 
@@ -156,7 +159,7 @@ let rotateScreen =   new THREE.CatmullRomCurve3([
         { trigger: "#spacer3", duration: 5, curve: curve3 },
         { trigger: "#spacer4", duration: 5, curve: curve4 },
         { trigger: "#spacer5", duration: 3, curve: curve5},
-        { trigger: "#spacer6", duration: 2},
+        { trigger: "#spacer6", duration: 2,},
     ];
 
 
@@ -166,7 +169,7 @@ let rotateScreen =   new THREE.CatmullRomCurve3([
             start: "top top",
             end: "bottom top",
             scrub: 5,
-            duration,
+            duration : duration,  
             onUpdate: self => {
                 if (curve) {
                     camera.position.copy(curve.getPoint(self.progress));
@@ -183,25 +186,16 @@ let rotateScreen =   new THREE.CatmullRomCurve3([
                 else{
                     isOpen = true;
                 }
-                camera.lookAt(new THREE.Vector3(-0.05, 2.5, -2));
-
-                if (camera.position.x === 0 && camera.position.y === 2.3 && camera.position.z === -2.2) {
-                    console.log("ok");
-                    window.location.href = "graphiste.html";
-                }
-            //     if (!isOpen && screen !== null) {
-            //                     screen.rotation.x = Math.PI * 2.15 - (self.progress * Math.PI * 0.8) - 0.2;
-            //                                 screen.position.y = (3 - (self.progress*1))**2;
-            //                                 screen.position.z = 6 - (self.progress * 7.35);
-            //                 }
-            //                 else {}
-            //     if (!isOpen  && keyboard !== null) {
-            //                                 keyboard.position.y = (3.215 - (self.progress * 2.57))**2;
-            //                                 pointLight.position.y =(4.25 - (self.progress * 4.3));
-            //                             }
-            //                             else{}
-            // },
-    }});});
+                console.log(camera.position);
+                camera.lookAt(new THREE.Vector3(-0.05, 2.3, -2.4)); 
+                if (camera.position.x === 0 && camera.position.y === 2.3 && camera.position.z === -1.8049999999999997){
+                    window.location.href = "room.html";
+                }    
+        }
+    }
+    )
+}
+);
 
 scene.add(ordi);
 });       
