@@ -23,18 +23,23 @@ header,.row,footer{
 
 header{
     padding-bottom: 10vh;
-    margin: 2vh 0vh 3vw 3vw;
+    margin: 2vh 3vw 0vh 3vw;
+    align-items: center;
 }
 
 header h1{
-    font-size: 5em;
+    font-size: 5rem;
     font-weight: 900;
 }
 
 header p{
-    margin:4vh 2vw 0vh 0vw
+    /* margin:4vh 2vw 0vh 0vw; */
+    font-size: 1.2rem;
 }
 
+#bnj{
+    margin-left:20vw
+}
 
 .content{
     display: flex;
@@ -47,18 +52,19 @@ header p{
     padding-top: 4.6vh;
     padding-bottom: 4.6vh;
     border-top: 1.5px solid black;
-    cursor:pointer
+    cursor:pointer;
+    flex-direction: row;
+    align-items: center;
 }
 
 
 .row h2{
-    font-size: 2em;
+    font-size: 2rem;
     font-weight: 800;
-    margin-left: 5vw;
 }
 
 .row p{
-    padding-top:2vh;
+    font-size: 1rem;
 }
 
 
@@ -69,10 +75,16 @@ footer{
     display: flex;
     flex-direction: column;
 }
+.footer_right{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
 
 footer h2{
     font-size: 1.5em;
-    font-weight: 100;
+    font-weight: 400;
     margin: 2vh 1vw 2vh 1vw;
 }
 
@@ -113,4 +125,37 @@ a{
 .row:hover img{
     display: block;
     transition: ease-out 0.5s;
+}
+
+@media screen   and (max-width: 700px) {
+
+    body{
+        overflow:scroll;
+    }
+
+    header{
+        padding-bottom: 5vh;
+    }
+
+    header h1{
+        font-size: 2.5rem;
+    }
+
+    header p{
+        font-size: 1rem;
+    }
+    .row p{
+        font-size: 1rem;
+    }
+    .row h2{
+        font-size: 2rem;
+    }
+
+    .row {
+        flex-direction: column;
+        align-items: normal;
+        padding-top: 5vh;
+    padding-bottom: 5vh;
+    }
+
 }
