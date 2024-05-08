@@ -7,6 +7,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { EffectComposer } from 'three/examples/jsm/Addons.js';
 import { RenderPass } from 'three/examples/jsm/Addons.js';
 import { UnrealBloomPass } from 'three/examples/jsm/Addons.js';
+import { FilmPass } from 'three/examples/jsm/Addons.js';
+import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader.js';
 
 
 
@@ -30,6 +32,37 @@ const sizes = {
 }
 // Scene
 const scene = new THREE.Scene()
+
+//loader
+const loadingManager = new THREE.LoadingManager( () => {
+	
+    const loadingScreen = document.getElementById( 'loading-screen' );
+    loadingScreen.classList.add( 'fade-out' );
+    
+    // optional: remove loader from DOM via event listener
+    loadingScreen.addEventListener( 'transitionend', onTransitionEnd );
+    
+} );
+
+const loader2 = new ColladaLoader( loadingManager );
+	loader2.load( 'https://threejs.org/examples/models/collada/stormtrooper/stormtrooper.dae', ( collada ) => {
+
+		const animations = collada.animations;
+		const avatar = collada.scene;
+
+		mixer = new THREE.AnimationMixer( avatar );
+		const action = mixer.clipAction( animations[ 0 ] ).play();
+
+		scene.add( avatar );
+
+	} );
+
+
+function onTransitionEnd( event ) {
+
+	event.target.remove();
+	
+}
 /**
  * Renderer
  */
@@ -52,41 +85,6 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap
 scene.fog = new THREE.Fog(0x040404, 15, 20)
 
 /**
- * particles
- */
-const textureLoader = new THREE.TextureLoader()
-const particleTexture = textureLoader.load('./particle.png')
-
-const particlesGeometry = new THREE.BufferGeometry()
-const count = 5000
-
-const positions = new Float32Array(count * 3)
-
-for (let i =0; i < count * 3; i++)
-{
-    positions[i] = (Math.random() - 0.5) * 50
-}
-
-particlesGeometry.setAttribute(
-    'position',
-    new THREE.BufferAttribute(positions, 3)
-)
-
-
-
-const particlesMaterial = new THREE.PointsMaterial()
-particlesMaterial.size= 0.02
-particlesMaterial.sizeAttenuation= true
-particlesMaterial.color = new THREE.Color('#9ffaff')
-particlesMaterial.transparent = true
-particlesMaterial.alphaMap = particleTexture
-particlesMaterial.depthWrite = false
-particlesMaterial.blending = THREE.NormalBlending
-    //points 
-    const particles = new THREE.Points(particlesGeometry, particlesMaterial)
-    scene.add(particles)
-
-/**
  * objects
  */
 
@@ -101,6 +99,9 @@ loader.load( './ordi4.glb', function ( gltf )
 const plane = ordi.children[2];
 const screen = ordi.children[1];
 const keyboard = ordi.children[0];
+screen.rotateX(6.2);
+screen.position.y = 3;
+screen.position.z = 1;
 screen.castShadow = true;
 screen.receiveShadow = true;
 keyboard.castShadow = true;
@@ -114,25 +115,27 @@ plane.receiveShadow = true;
 let isOpen = false
 
 let curve1 = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(-4, 4, 15),
-    new THREE.Vector3(0, 7.5, 11),
+    new THREE.Vector3(-4, 2, 10),
+    new THREE.Vector3(0, 3.5, 11),
+    new THREE.Vector3(4, 1, 2),
 
 ]);
 let curve2 = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, 7.5, 11),
-    new THREE.Vector3(5, 5, 12),
-    new THREE.Vector3(5, 2, -7),
-    
+    new THREE.Vector3(4, 1, 2),
+    new THREE.Vector3(-1, 2, 2),
+    new THREE.Vector3(-5, 2, 2),
 ]);
 let curve3 = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(5, 2, -7),
-    new THREE.Vector3(-7, 5, -6),
-    new THREE.Vector3(-3, 2, 2),
+    new THREE.Vector3(-5, 2, 2),
+    new THREE.Vector3(-4, 2, -5),
+    new THREE.Vector3(0, 2, -10),
+    new THREE.Vector3(6, 2, -5),
+    new THREE.Vector3(7, 2, 4),
 ]);
 
 let curve4 = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(-3, 2, 2),
-    new THREE.Vector3(5, 2, 5),
+    new THREE.Vector3(7, 2, 4),
+    new THREE.Vector3(4, 2, 7),
     new THREE.Vector3(0, 3, 10),
 ]);
 let curve5 = new THREE.CatmullRomCurve3([
@@ -156,6 +159,7 @@ let rotateScreen =   new THREE.CatmullRomCurve3([
     new THREE.Vector3(4, 0, 0),
 ]);
 
+
         
     gsap.registerPlugin(ScrollTrigger);
 
@@ -177,6 +181,15 @@ let rotateScreen =   new THREE.CatmullRomCurve3([
             scrub: 5,
             duration,
             onUpdate: self => {
+                if (curve) {
+                    camera.position.copy(curve.getPoint(self.progress));
+                }
+                if (curveScreen) {
+                    screen.position.copy(curveScreen.getPoint(self.progress));
+                }
+                if (rotateScreen) {
+                    screen.rotation.copy(new THREE.Euler().setFromVector3(rotateScreen.getPoint(self.progress)));
+                }
                 if (trigger === "#spacer1" ) {
                     isOpen = false;
                 }
@@ -184,14 +197,9 @@ let rotateScreen =   new THREE.CatmullRomCurve3([
                     isOpen = true;
                 }
                 camera.lookAt(new THREE.Vector3(-0.05, 2.5, -2));
-                camera.position.copy(curve.getPoint(self.progress));
-                screen.position.copy(curveScreen.getPoint(self.progress));
-                // camera.rotation.copy(new THREE.Euler().setFromVector3(rotate.getPoint(self.progress)));
-                screen.rotation.copy(new THREE.Euler().setFromVector3(rotateScreen.getPoint(self.progress)));
-                camera.lookAt(new THREE.Vector3(-0.05, 2.5, -2));
 
-                console.log(self.progress);
-                if(trigger === "#spacer6" && self.progress === 1){
+                if (camera.position.x === 0 && camera.position.y === 2.3 && camera.position.z === -2.2) {
+                    console.log("ok");
                     window.location.href = "graphiste.html";
                 }
             //     if (!isOpen && screen !== null) {
@@ -214,26 +222,21 @@ scene.add(ordi);
 /**
  * ligths
  */
+const ambientLight = new THREE.AmbientLight(0xffaaaa, 0.2)
+scene.add(ambientLight)
 
-const pointLight = new THREE.PointLight(0x41ff31, 0.25)
-pointLight.position.set(-3.05, 0.15, 0.25)
-scene.add(pointLight)
-
-const dirLight = new THREE.DirectionalLight(0xffffff, 1.5)
+const dirLight = new THREE.DirectionalLight(0xffffff, 4)
 dirLight.position.set(1.45, 0.7, -1.5)
 
-const pointLight2 = new THREE.PointLight(0x89CFEF, 3)
+const pointLight2 = new THREE.PointLight(0x89CFEF, 4)
 
 pointLight2.position.set(2, 2, 2)
 scene.add(pointLight2)
 
-const pointLight3 = new THREE.PointLight(0x800080, 2.5)
+const pointLight3 = new THREE.PointLight(0x800080, 4)
 pointLight3.position.set(-2, 2, 2)
 scene.add(pointLight3)
 
-// const recLight = new THREE.RectAreaLight(0xa5c6f8, 2, 6, 3.58)
-// recLight.position.set(0, 0.68, 1.9)
-// recLight.rotation.x = Math.PI * 1.45
 
 scene.add(dirLight)
 
@@ -264,7 +267,7 @@ window.addEventListener('resize', () =>
 const camera = new THREE.PerspectiveCamera(60, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = -4
 camera.position.y = 4
-camera.position.z = 15
+camera.position.z = 10
 camera.lookAt(new THREE.Vector3(-0.05, 2.5, -2));
 scene.add(camera)
 
@@ -272,31 +275,32 @@ scene.add(camera)
 const composer = new EffectComposer(renderer)
 const renderPass = new RenderPass(scene, camera)
 composer.addPass(renderPass)
-composer.addPass(new UnrealBloomPass(new THREE.Vector2(sizes.width, sizes.height), 0.5, 0.7, 0.7))
+composer.addPass(new UnrealBloomPass(new THREE.Vector2(sizes.width, sizes.height), 0.5, 0.8, 0.7))
+composer.addPass(new FilmPass(0.35, false))
 
 
 
 
-// //test if camera is in the right position
-// if (camera.position.y >= -4 && camera.position.y <= 4 && 
-//     camera.position.z >= -4 && camera.position.z <= 4 && 
-//     camera.position.x >= -4 && camera.position.x <= 4) {
-//         console.log("ok");
+//test if camera is in the right position
+if (camera.position.y === -4 && camera.position.z === 4 && camera.position.x === -4) {
+        console.log("ok");
 
-//     window.location.href = "graphiste.html";
-// }
+    window.location.href = "graphiste.html";
+}
 
 
 /**
  * gui&helpers
  */
 const helpers = new THREE.Group()
+
+const polarGridHelper = new THREE.PolarGridHelper(10, 10)
+polarGridHelper.position.y = 0.01
+helpers.add(polarGridHelper)
+
+
 scene.add(helpers)
 
-// const axesHelper = new THREE.AxesHelper(5)
-// helpers.add(axesHelper)
-
-gui.add(dirLight, 'intensity').min(0).max(10).step(0.001).name('directional light intensity')
 
 
 /**
