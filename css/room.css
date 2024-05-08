@@ -50,6 +50,7 @@ footer{
 }
 
 header{
+    z-index: 1;
     position: fixed;
     top: 0;
     width: 100%;
@@ -60,20 +61,6 @@ a{
     text-decoration: none;
 }
 
-#spacer1,#spacer2,#spacer5,#spacer6{
-    height: 100vh;
-    /* border-bottom: 1px solid red; */
-}
-
-#spacer4{
-    height: 120vh;
-    /* border-bottom: 1px solid blue; */
-}
-
-#spacer3{
-    height: 150vh;
-    /* border-bottom: 1px solid green; */
-}
 
 #loading-screen {
 	position: absolute;
@@ -82,9 +69,12 @@ a{
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: #000000;
+    background-color: black;
+	/* background:url(../public/transition.jpg);
+    background-repeat: no-repeat;
+    background-size: cover; */
 	opacity: 1;
-    transition: 2s opacity;
+    transition: 1s opacity;
 }
 
 

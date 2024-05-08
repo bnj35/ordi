@@ -259,17 +259,6 @@ composer.addPass(renderPass)
 composer.addPass(new UnrealBloomPass(new THREE.Vector2(sizes.width, sizes.height), 0.5, 0.8, 0.7))
 composer.addPass(new FilmPass(0.35, false))
 
-
-
-
-//test if camera is in the right position
-if (camera.position.y === -4 && camera.position.z === 4 && camera.position.x === -4) {
-        console.log("ok");
-
-    window.location.href = "graphiste.html";
-}
-
-
 /**
  * gui&helpers
  */
