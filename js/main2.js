@@ -5,8 +5,10 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { EffectComposer } from 'three/examples/jsm/Addons.js';
 import { RenderPass } from 'three/examples/jsm/Addons.js';
 import { DotScreenPass } from 'three/examples/jsm/Addons.js';
+import { Raycaster } from 'three';
 
 
+// Cursor
 const cursor = {
     x: 0,
 };
@@ -82,6 +84,35 @@ loader.load( './room.glb', function ( gltf )
     room.rotation.y = Math.PI * 1.01;
     room.position.z = -0.1;
 
+//     //raycast
+// const raycaster = new THREE.Raycaster();
+// const pointer = new THREE.Vector2();
+
+// function onPointerMove( event ) {
+
+// 	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+// 	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+// }
+
+// function render() {
+//         // update the picking ray with the camera and pointer position
+//         raycaster.setFromCamera( pointer, camera );
+    
+//         // calculate objects intersecting the picking ray
+//         const intersects = raycaster.intersectObjects( room.children );
+    
+//         for ( let i = 0; i < intersects.length; i ++ ) {
+    
+//             console.log(intersects[ i ]);
+    
+//         }
+    
+//     }
+
+// window.addEventListener( 'pointermove', onPointerMove );
+// window.requestAnimationFrame(render);
+
     const directionalLight = new THREE.DirectionalLight(0xffffff, 7)
 directionalLight.position.set(camera.position.x, camera.position.y, camera.position.z)
 directionalLight.target.position.set(room.position.x, room.position.y, room.position.z)
@@ -149,7 +180,6 @@ const composer = new EffectComposer(renderer)
 const renderPass = new RenderPass(scene, camera)
 composer.addPass(renderPass)
 composer.addPass(new DotScreenPass(new THREE.Vector2(2, 2), 0.5, 2))
-
 
 
 /**
