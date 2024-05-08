@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
 *
 {
     margin: 0;
@@ -10,7 +11,8 @@ body
     overflow: hidden;
     background-color: whitesmoke;
     color: black;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Urbanist", sans-serif;
+    font-optical-sizing: auto;
 }
 
 header,.row,footer{

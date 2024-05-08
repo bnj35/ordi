@@ -1,5 +1,5 @@
-*
-{
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+*{
     margin: 0;
     padding: 0;
 }
@@ -8,7 +8,8 @@ html,
 body
 {
     color: whitesmoke;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Urbanist", sans-serif;
+    font-optical-sizing: auto;
     scroll-behavior: smooth;
 }
 
@@ -25,6 +26,7 @@ header,.left_head,.right_head,footer{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 .left_head, .right_head,footer{
@@ -34,6 +36,10 @@ header,.left_head,.right_head,footer{
 
 .left_head h2, .right_head h2, .footer_left, .footer_right{
     margin: 2vh 3vh 3vh 3vh;
+}
+
+.title{
+    font-weight: 400;
 }
 
 footer{
@@ -78,8 +84,7 @@ a{
 	height: 100%;
 	background-color: #000000;
 	opacity: 1;
-    transition: 0.5s opacity;
-    overflow: hidden;
+    transition: 1s opacity;
 }
 
 #loading-screen.fade-out {
@@ -96,9 +101,10 @@ a{
     margin: -75px 0 0 -75px;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: #fff2f2;
+    border-top-color: #ffffff;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
+    filter: blur(2px);
 }
 #loader:before {
     content: "";
@@ -109,9 +115,10 @@ a{
     bottom: 5px;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: #f4f1ff;
+    border-top-color: #ffffff;
     -webkit-animation: spin 3s linear infinite;
     animation: spin 3s linear infinite;
+    filter: blur(1px);
 }
 #loader:after {
     content: "";
@@ -122,9 +129,10 @@ a{
     bottom: 15px;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: #f7feff;
+    border-top-color: #ffffff;
     -webkit-animation: spin 1.5s linear infinite;
     animation: spin 1.5s linear infinite;
+    filter: blur(1px);
 }
 @-webkit-keyframes spin {
     0%   {

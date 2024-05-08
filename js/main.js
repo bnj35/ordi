@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import GUI from 'lil-gui';
+// import GUI from 'lil-gui';
 import Stats from "three/addons/libs/stats.module.js";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { gsap } from "gsap";
@@ -8,16 +8,17 @@ import { EffectComposer } from 'three/examples/jsm/Addons.js';
 import { RenderPass } from 'three/examples/jsm/Addons.js';
 import { UnrealBloomPass } from 'three/examples/jsm/Addons.js';
 import { FilmPass } from 'three/examples/jsm/Addons.js';
-import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader.js';
 
-
-
+document.addEventListener('DOMContentLoaded', function () {
+    document.scrollingElement.scrollTo(0, 0);
+}
+);
 /**
  * Base
  */
 
 // Debug
-const gui = new GUI()
+// const gui = new GUI()
 let stats = Stats()
 document.body.appendChild(stats.dom)
 
@@ -34,6 +35,7 @@ const sizes = {
 const scene = new THREE.Scene()
 
 //loader
+
 const loadingManager = new THREE.LoadingManager( () => {
 	
     const loadingScreen = document.getElementById( 'loading-screen' );
@@ -43,20 +45,6 @@ const loadingManager = new THREE.LoadingManager( () => {
     loadingScreen.addEventListener( 'transitionend', onTransitionEnd );
     
 } );
-
-const loader2 = new ColladaLoader( loadingManager );
-	loader2.load( 'https://threejs.org/examples/models/collada/stormtrooper/stormtrooper.dae', ( collada ) => {
-
-		const animations = collada.animations;
-		const avatar = collada.scene;
-
-		mixer = new THREE.AnimationMixer( avatar );
-		const action = mixer.clipAction( animations[ 0 ] ).play();
-
-		scene.add( avatar );
-
-	} );
-
 
 function onTransitionEnd( event ) {
 
@@ -87,8 +75,7 @@ scene.fog = new THREE.Fog(0x040404, 15, 20)
 /**
  * objects
  */
-
-var loader = new GLTFLoader()
+var loader = new GLTFLoader(loadingManager)
 let ordi; 
 loader.load( './ordi4.glb', function ( gltf )
 {
@@ -100,8 +87,8 @@ const plane = ordi.children[2];
 const screen = ordi.children[1];
 const keyboard = ordi.children[0];
 screen.rotateX(6.2);
-screen.position.y = 3;
-screen.position.z = 1;
+screen.position.y = 2.8;
+screen.position.z = 2;
 screen.castShadow = true;
 screen.receiveShadow = true;
 keyboard.castShadow = true;
@@ -266,7 +253,7 @@ window.addEventListener('resize', () =>
 // Base camera
 const camera = new THREE.PerspectiveCamera(60, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = -4
-camera.position.y = 4
+camera.position.y = 2
 camera.position.z = 10
 camera.lookAt(new THREE.Vector3(-0.05, 2.5, -2));
 scene.add(camera)
