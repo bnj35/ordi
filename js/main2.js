@@ -94,38 +94,6 @@ scene.add(directionalLight)
 scene.add(room);
 
 
-    //raycast
-    const raycaster = new THREE.Raycaster();
-    const pointer = new THREE.Vector2();
-    
-    function onPointerMove( event ) {
-    
-        pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-        pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-    
-    }
-    
-    function test() {
-        // console.log(scene.children[7])
-        // update the picking ray with the camera and pointer position
-        raycaster.setFromCamera( pointer, camera );
-    
-        // Vérifiez si scene.children[7] existe et est un objet
-        if (scene.children[7] && scene.children[7].isMesh) {
-            // calculate objects intersecting the picking ray
-            const intersects = raycaster.intersectObjects( [scene.children[7]] );
-    
-            for ( let i = 0; i < intersects.length; i++ ) {
-                console.log(intersects[ i ]);
-                cursor.style.cursor = 'pointer';
-            }
-        }
-    
-        window.requestAnimationFrame(test);
-    }
-    
-    window.addEventListener( 'pointermove', onPointerMove );
-    window.requestAnimationFrame(test);
 });       
 
 /**
@@ -181,6 +149,42 @@ camera.position.y = 3
 camera.position.z = 5
 camera.lookAt(new THREE.Vector3(0, 3, 0));
 scene.add(camera)
+
+    //raycast
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    
+    function onPointerMove( event ) {
+    
+        pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+        pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    
+    }
+    
+    function test() {
+
+        
+        
+        raycaster.setFromCamera( pointer, camera );
+    
+        if (scene.children[7] && scene.children[7].isMesh) {
+            
+            const intersects = raycaster.intersectObjects( [scene.children[7]] );
+    
+            for ( let i = 0; i < intersects.length; i++ ) {
+                console.log(intersects[ i ]);
+                cursor.style.cursor = 'pointer';
+            }
+        }
+        else{
+            console.log(scene.children[7])
+        }
+    
+        // window.requestAnimationFrame(test);
+    }
+    
+    window.addEventListener( 'pointermove', onPointerMove );
+    window.requestAnimationFrame(test);
 
 //post processing
 const composer = new EffectComposer(renderer)
