@@ -55,11 +55,10 @@ header p{
 
 content{
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin: 5vh 3vw 12vh 3vw; ;
+    gap: 1em;
 }
 
 content *{
