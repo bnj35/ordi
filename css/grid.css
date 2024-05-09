@@ -65,6 +65,7 @@ content{
     justify-content: center;
     gap: 1em;
     margin: 2vh 0vw;
+    margin-bottom: 10vh;
 }
 
 content *{
