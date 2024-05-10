@@ -59,6 +59,19 @@ header p{
     margin-left: 3vw;
 }
 
+#cv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+#cv img{
+    width: 500px;
+    object-fit: cover;
+}
+
 content{
     height: fit-content;
     width: fit-content;
@@ -157,6 +170,11 @@ footer h2{
     font-size: 1.2rem;
 }
 
+.wip{
+    margin-top: 30vh;
+    font-size: 6rem;
+}
+
 @media screen and (max-width: 700px){
     header{
         padding-bottom: 5vh;
@@ -173,6 +191,14 @@ footer h2{
     .taille{
         width: 90%;
         font-size: 1rem;
+    }
+
+    .wip{
+        font-size: 4rem;
+    }
+
+    #cv img{
+        width: 370px;
     }
     
 }
