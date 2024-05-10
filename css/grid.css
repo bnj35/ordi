@@ -12,6 +12,7 @@ body
     color: black;
     font-family: "Urbanist", sans-serif;
     font-optical-sizing: auto;
+    scroll-behavior: smooth;
 }
 
 a{
@@ -59,26 +60,64 @@ header p{
 }
 
 content{
+    height: fit-content;
+    width: fit-content;
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
+    gap: 1vw;
     justify-content: center;
-    gap: 1em;
-    margin: 2vh 0vw;
+    align-items:start;
+}
+#block{
+    height:fit-content;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items:center;
     margin-bottom: 10vh;
 }
 
 content *{
-    margin: 1vh 0.5vw;
+    margin: 1vh 1vw;
     width: auto;
     height: auto;
     object-fit: cover;
 }
 
-.img{
-    
-    z-index: 1;
-    transition: transform 0.3s;
+.column{
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+
+}
+
+.card{
+    background-color: whitesmoke;
+    border: 1px solid black;
+    object-fit: cover;
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card img{
+    width:300px;
+    height: auto;
+    object-fit: cover;
+    margin-top: 2vh;
+}
+
+.card-text{
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: baseline;
+    margin: 0 auto 1vh 0;
+    width: 90%;
 }
 
 
