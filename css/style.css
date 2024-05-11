@@ -233,6 +233,7 @@ transition: ease-in-out 0.2s;
         justify-content: center;
         align-items: center;
         border: whitesmoke 1px solid;
+        margin-bottom: 10vh;
     }
 
     .info_ray{
