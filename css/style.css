@@ -65,6 +65,10 @@ a{
     text-decoration: none;
 }
 
+.resize{
+    display: none;
+}
+
 #spacer2,#spacer5{
     height: 80vh;
     /* border-bottom: 1px solid red; */
@@ -194,6 +198,26 @@ a{
 
     .right_head{
         display: none;
+    }
+
+    #room{
+        display: none;
+    }
+
+    .resize{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10vh;
+    }
+
+    .resize__content{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: whitesmoke 1px solid;
     }
     
 }
