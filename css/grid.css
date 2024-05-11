@@ -124,6 +124,13 @@ content *{
     margin-top: 2vh;
 }
 
+.card video{
+    width:300px;
+    height: auto;
+    object-fit: cover;
+    margin-top: 2vh;
+}
+
 .card-text{
     display: flex;
     flex-direction: column;
