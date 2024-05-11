@@ -175,7 +175,7 @@ scene.add(camera)
             if (intersects.length > 0) {
                 if (intersected !== intersects[0].object.parent) {
                     // intersected = intersects[0].object.parent;
-                    console.log(RayTitle);
+                    // console.log(RayTitle);
                     RayTitle.innerHTML = intersects[0].object.parent.name;
 
                     document.body.style.cursor = "pointer";

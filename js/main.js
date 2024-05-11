@@ -8,6 +8,7 @@ import { EffectComposer } from 'three/examples/jsm/Addons.js';
 import { RenderPass } from 'three/examples/jsm/Addons.js';
 import { UnrealBloomPass } from 'three/examples/jsm/Addons.js';
 import { FilmPass } from 'three/examples/jsm/Addons.js';
+import { tri } from 'three/examples/jsm/nodes/math/TriNoise3D.js';
 
 document.addEventListener('DOMContentLoaded', function () {
     document.scrollingElement.scrollTo(0, 0);
@@ -158,7 +159,7 @@ let rotateScreen =   new THREE.CatmullRomCurve3([
         { trigger: "#spacer3", duration: 5, curve: curve3 },
         { trigger: "#spacer4", duration: 5, curve: curve4 },
         { trigger: "#spacer5", duration: 3, curve: curve5},
-        { trigger: "#spacer6", duration: 2,},
+        { trigger: "#spacer6", duration: 2 },
     ];
 
 
@@ -185,12 +186,16 @@ let rotateScreen =   new THREE.CatmullRomCurve3([
                 else{
                     isOpen = true;
                 }
-                console.log(camera.position);
+                // console.log(camera.position);
                 camera.lookAt(new THREE.Vector3(-0.05, 2.3, -2.4)); 
-                if (camera.position.x === 0 && camera.position.y === 2.3 && camera.position.z === -1.8049999999999997){
+                if(trigger==='#spacer5' && self.progress === 1){
                     window.location.href = "room.html";
-                }    
-        }
+                }
+                
+                // if (camera.position.x === 0 && camera.position.y === 2.3 && camera.position.z === -1.8049999999999997){
+                //     window.location.href = "room.html";
+                // }    
+        },
     }
     )
 }
