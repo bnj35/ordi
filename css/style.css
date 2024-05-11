@@ -164,6 +164,18 @@ transition: ease-in-out 0.2s;
     -webkit-animation: spin 1.5s linear infinite;
     animation: spin 1.5s linear infinite;
 }
+
+#scroll{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-top: 25vh;
+    font-size: 2rem;
+    color: whitesmoke;
+
+}
+
 @-webkit-keyframes spin {
     0%   {
         -webkit-transform: rotate(0deg);

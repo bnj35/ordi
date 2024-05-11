@@ -172,4 +172,8 @@ a{
     padding-bottom: 5vh;
     }
 
+    .row img{
+        display: none;
+    }
+
 }

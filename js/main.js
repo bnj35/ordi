@@ -186,7 +186,7 @@ let rotateScreen =   new THREE.CatmullRomCurve3([
                 else{
                     isOpen = true;
                 }
-                // console.log(camera.position);
+                
                 camera.lookAt(new THREE.Vector3(-0.05, 2.3, -2.4)); 
                 if(trigger==='#spacer5' && self.progress === 1){
                     window.location.href = "room.html";
