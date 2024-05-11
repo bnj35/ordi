@@ -160,32 +160,59 @@ scene.add(camera)
         pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
     
     }
-    
-    function test() {
+    let intersected;
+    let RayTitle = document.getElementById('info_ray_title');
 
+    function test() {
         
         
         raycaster.setFromCamera( pointer, camera );
     
-        if (scene.children[7] && scene.children[7].isMesh) {
+        if (scene.children[7]) {
             
             const intersects = raycaster.intersectObjects( [scene.children[7]] );
     
-            for ( let i = 0; i < intersects.length; i++ ) {
-                console.log(intersects[ i ]);
-                cursor.style.cursor = 'pointer';
+            if (intersects.length > 0) {
+                if (intersected !== intersects[0].object.parent) {
+                    // intersected = intersects[0].object.parent;
+                    console.log(RayTitle);
+                    RayTitle.innerHTML = intersects[0].object.parent.name;
+
+                    document.body.style.cursor = "pointer";
+                    if (intersects[0].object.parent.name == "class1") {
+                        RayTitle.innerHTML = "School";
+                        canvas.addEventListener('click', function(){
+                            RayTitle.innerHTML = "Wait a moment";
+                            window.location.href = "etudiant.html";
+                        });
+                    }
+                    if (intersects[0].object.parent.name == "desk1") {
+                        RayTitle.innerHTML = "Web and Developpemnt";
+                        canvas.addEventListener('click', function(){
+                            RayTitle.innerHTML = "Wait a moment";
+                            window.location.href = "Dev.html";
+                        });
+                    }
+                    if (intersects[0].object.parent.name == "basket1") {
+                        RayTitle.innerHTML = "Graphism and Design";
+                        canvas.addEventListener('click', function(){
+                            RayTitle.innerHTML = "Wait a moment";
+                            window.location.href = "graphiste.html";
+                        });
+                    }
+                }
+                else{
+                    
+                    intersected = null;
+                    document.body.style.cursor = "auto";
+                }
+                    
             }
         }
-        else{
-            console.log(scene.children[7])
-        }
-    
-        // window.requestAnimationFrame(test);
     }
     
     window.addEventListener( 'pointermove', onPointerMove );
-    window.requestAnimationFrame(test);
-
+    // window.requestAnimationFrame(test);
 //post processing
 const composer = new EffectComposer(renderer)
 const renderPass = new RenderPass(scene, camera)
@@ -221,7 +248,7 @@ const tick = () =>
     renderer.render(scene, camera)
     composer.render()
 
-    
+    test();
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
 }

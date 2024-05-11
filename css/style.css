@@ -69,6 +69,18 @@ a{
     display: none;
 }
 
+.info_ray{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30vh;
+}
+
+#info_ray_title{
+transition: ease-in-out 0.2s;
+}
+
 #spacer2,#spacer5{
     height: 80vh;
     /* border-bottom: 1px solid red; */
@@ -171,7 +183,7 @@ a{
     }
 }
 
-@media screen and (max-width: 700px)
+@media screen and (max-width: 800px)
 {
     header{
         padding-bottom: 5vh;
@@ -218,6 +230,10 @@ a{
         justify-content: center;
         align-items: center;
         border: whitesmoke 1px solid;
+    }
+
+    .info_ray{
+        display: none;
     }
     
 }
