@@ -111,6 +111,9 @@ transition: ease-in-out 0.2s;
 	background-color: #000000;
 	opacity: 1;
     transition: 1s opacity;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
