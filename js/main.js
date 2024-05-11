@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Debug
 // const gui = new GUI()
-let stats = Stats()
-document.body.appendChild(stats.dom)
+// let stats = Stats()
+// document.body.appendChild(stats.dom)
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -283,7 +283,7 @@ const tick = () =>
 
 
     // Update stats
-    stats.update()
+    // stats.update()
 
     // Render
     renderer.render(scene, camera)

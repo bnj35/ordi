@@ -23,8 +23,8 @@ window.addEventListener("mousemove", function (event) {
 
 // Debug
 // const gui = new GUI()
-let stats = Stats()
-document.body.appendChild(stats.dom)
+// let stats = Stats()
+// document.body.appendChild(stats.dom)
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -242,7 +242,7 @@ const tick = () =>
     camera.rotation.y =  -((cursor.x) * Math.PI * 2)*0.1;
 
     // Update stats
-    stats.update()
+    // stats.update()
 
     // Render
     renderer.render(scene, camera)
