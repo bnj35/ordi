@@ -70,6 +70,7 @@ header p{
 #cv img{
     width: 500px;
     object-fit: cover;
+    margin-bottom: 10dvh;
 }
 
 content{
@@ -208,4 +209,8 @@ footer h2{
         width: 370px;
     }
     
+    .card img{
+        margin-bottom: 5dvh;
+    }
+
 }
