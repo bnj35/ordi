@@ -8,11 +8,12 @@
 html,
 body
 {
-    overflow: hidden;
+    /* overflow: hidden; */
     background-color: whitesmoke;
     color: black;
     font-family: "Urbanist", sans-serif;
     font-optical-sizing: auto;
+    height: 100dvh;
 }
 
 header,.row,footer{
@@ -22,7 +23,7 @@ header,.row,footer{
 }
 
 header{
-    padding-bottom: 10vh;
+    padding-bottom: 10dvh;
     margin: 2vh 3vw 0vh 3vw;
     align-items: center;
 }
